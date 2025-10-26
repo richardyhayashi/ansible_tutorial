@@ -5,9 +5,19 @@
   tasks:
 
   - name: install apache2 and php for Ubuntu servers
-    package:
+    apt:
       name:
-        - "{{ apache_package }}"
-        - "{{ php_package }}"
+        - apache2
+        - libapache2-mod-apache
       state: latest
       update_cache: yes
+    when ansible_distribution == "Ubuntu"
+
+  - name: install apache and php for Rocky servers
+    dnf:
+      name:
+        - httpd
+        - php
+      state: latest
+      update_cache: yes
+    when ansible_distribution == "Rocky"
